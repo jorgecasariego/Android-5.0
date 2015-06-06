@@ -19,6 +19,21 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
     }
 
+    /**
+     * What does LayoutInflater in Android do?
+     * LayoutInflater class is used to instantiate layout XML file into its corresponding View objects.
+     * In activity we use setContentView and with fragments we use LayoutInflater
+     *
+     * The inflate() method takes three parameters: The id of a layout XML file (inside R.layout),
+     * a parent ViewGroup into which the fragment's View is to be inserted, and a third boolean
+     * telling whether the fragment's View as inflated from the layout XML file should be inserted
+     * into the parent ViewGroup. In this case we pass false because the View will be attached to
+     * the parent ViewGroup elsewhere, by some of the Android code we call
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
