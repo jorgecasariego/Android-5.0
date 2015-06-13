@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp">
+
+    <LinearLayout
+        android:id="@+id/recuadroImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/imagenTareaImageView"
+            android:src="@drawable/ic_carreer"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/nombreTareaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/recuadroImagen"
+        android:layout_toRightOf="@+id/recuadroImagen"
+        android:text="Nombre Tarea"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/horaTareaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nombreTareaTextView"
+        android:text="18:00"
+        android:textSize="12sp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/recuadroImagen"
+        />
+</RelativeLayout>
