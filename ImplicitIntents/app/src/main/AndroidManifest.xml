@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.androidatc.implicitintents" >
+
+    <!-- Cuando las acciones nuestra app no realiza directamente, si no que la pedimos
+         a traves de un intent implicito, no es nuestra aplicación quien realiza, por
+         tanto nosotros no debemos pedir los permisos. La unica excepcion es la de llamar
+         a un numero de telefono. Para poder realizar una llamada desde un intent si que hay
+         que pedir el permiso correspondiente-->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
