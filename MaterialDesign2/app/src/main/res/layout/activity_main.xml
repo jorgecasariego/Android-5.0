@@ -1,11 +1,23 @@
+<!--  Steps to setup a navigation drawer
+    1. Add a DrawerLayout with 2 children-
+        1. Your main content
+        2. Content of your drawer
+    2. Initialize the DrawerLayout code
+    3. Create an instance of ActionBarDraweToggle and specify the activity,
+       the DrawerLayout object that is monitored, the Toolbar whose icon
+       will be switched, the Strings for open and close actions
+    4. Invalidate Options menu when drawer is opened to indicates changes if any
+    5. Invalidate the Activiyt menu when the drawer is closed to indicate changes if any
+
+-->
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.androidatc.materialdesign.MainActivity">
@@ -21,6 +33,17 @@
             android:layout_below="@+id/app_bar"/>
 
     </RelativeLayout>
+
+    <fragment
+        android:id="@+id/fragment_navigation_drawer"
+        android:name="com.androidatc.materialdesign.NavigationDrawerFragment"
+        android:layout_width="@dimen/nav_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_navigation_drawer"
+        tools:layout="@layout/fragment_navigation_drawer" />
+
+
 
 </android.support.v4.widget.DrawerLayout>
 
