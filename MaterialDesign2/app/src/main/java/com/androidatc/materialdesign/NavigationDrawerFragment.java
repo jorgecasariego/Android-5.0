@@ -77,17 +77,17 @@ public class NavigationDrawerFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
             }
         };
-
+/*
         if (!mUserLearnedDrawer && !mFromSaveInstanceState) {
             mDrawerLayout.openDrawer(containerView);
-        }
+        }*/
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
-                mDrawerToggle.syncState(); 
+                mDrawerToggle.syncState();
             }
         });
     }
