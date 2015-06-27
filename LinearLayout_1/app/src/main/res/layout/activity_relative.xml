@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/vista1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hola Mundo"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:background="#0032AA"
+        android:padding="2dp"
+        android:gravity="center"
+        android:layout_alignBaseline="@id/vista2"
+        android:layout_toRightOf="@+id/vista2"
+        />
+
+    <TextView
+        android:id="@+id/vista2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World"
+        android:textSize="20sp"
+        android:textColor="@android:color/holo_orange_dark"
+        android:background="#7733aa"
+        android:padding="5dp"
+        android:layout_centerVertical="true"
+        />
+
+</RelativeLayout>
+
+
+<!--
+    1. Centrar texto en el centro horizontalmente
+    2. Centrar texto en el centro verticalmente
+    3. Centrar en el medio mismo
+    4. Alinear a la izquierda, derecha, arriba, abajo con respecto al padre
+    5. Alinear mas de un atributo
+    6. Agregar otra vista al layout
+    7. Vista 2 colocar debajo de vista 1
+    8. Colocar arriba de la vista 1. Que pasa?
+    8.1 Colocar primero vista 2 y despues vista 1
+    9. Centrar vista 2
+    10. Alinear el 1 y el 2 a la izquierda
+    11. Alinear la vista 2 a la derecha
+    12. centrar verticalmente vista 2
+    13. Alinear onTop la vista 1 y la vista 2
+    14. Alinear en el medio mismo
+
+
+
+-->

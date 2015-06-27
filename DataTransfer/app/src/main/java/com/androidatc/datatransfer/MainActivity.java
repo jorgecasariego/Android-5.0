@@ -69,10 +69,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.v("onActivityResult", "Request Code: " + requestCode + "Result code: " + resultCode);
+        Log.v("onActivityResult", "Request Code: " + requestCode + " Result code: " + resultCode);
         switch (requestCode){
+            //Primero chequeamos cual request estamos recibiendo. En este caso el que buscamos es
+            //SHOW_REGISTRO que fue el que enviamos en startActivityForResult
             case SHOW_REGISTRO:
+                //Luego controlamos que resultado nos envio la actividad Registrarse.java
                 if(resultCode == RESULT_OK) {
+                    //Guardamos en un Bundle el usuario resultado que recibimos a traves de data
                     Bundle resultado = data.getExtras();
                     nombreUsuarioNuevo = resultado.getString(NOMBRE_REGISTRO);
                     Log.v("Nombre usuario:",  nombreUsuarioNuevo);

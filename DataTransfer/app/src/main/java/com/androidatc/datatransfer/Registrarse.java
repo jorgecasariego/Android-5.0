@@ -37,9 +37,11 @@ public class Registrarse extends ActionBarActivity implements View.OnClickListen
     public void finish() {
         //Preparar el intent
         Intent datos = new Intent();
+        //Ingresamos en el intent una clave y un valor. El valor en este caso es el nombre ingresado
+        //en el formulario
         datos.putExtra(NOMBRE_REGISTRO, nombreIngresado.getText().toString());
 
-        //Enviamos a la actividad que nos llamo ok y retornamos el dato
+        //Enviamos a la actividad que nos llamo con resultado ok y retornamos el dato
         setResult(RESULT_OK, datos);
 
 

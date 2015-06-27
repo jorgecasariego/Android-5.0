@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Texto 1"
+        android:background="#DF0101"
+        android:layout_margin="10dp"
+        android:layout_gravity="right"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Texto 2"
+        android:background="#00FF00"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:gravity="bottom"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:text="Texto 3"
+        android:background="#2E9AFE"/>
+
+</LinearLayout>
+
+<!--
+    1. Agregar 3 TextViews
+    2. Cambiar de horizontal a vertical
+    3. Rotar el telefono
+    4. Definir el tamaño de cada uno de los elementos en dp (mirar diapositiva)
+    5. utilizar match_parent en horizontal y vertical y ver como queda
+    6. Como utilizar todo el espacio disponible de la pantalla.....
+        Usando weight
+    6.1 Ejercicio: hacer lo mismo pero en horizontal
+    7. Probar margin con el 1er textview y probar padding con el segundo textview. Ver la diferencia
+-->
