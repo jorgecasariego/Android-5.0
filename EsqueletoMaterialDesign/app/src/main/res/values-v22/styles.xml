@@ -1,0 +1,13 @@
+<resources>
+
+    <!--
+        En ambos casos vamos a poner NoActionBar ya que esta deprecado
+        Ahora se usa AppCompat
+    -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primaryDark</item>
+        <item name="android:colorAccent">@color/accent </item>
+    </style>
+
+</resources>
