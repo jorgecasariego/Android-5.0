@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -19,9 +20,9 @@ public class ScreenSlidePagerActivity extends FragmentActivity{
     /**
      * 1. El numero de paginas que mostrara este ejemplo
      */
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 6;
 
-    private String tabTitles[] = new String[] { "Pagina 1", "Pagina 2", "Pagina 3", "Pagina 4", "Pagina 5" };
+    private String tabTitles[] = new String[] { "Pagina 1", "Pagina 2", "Pagina 3", "Pagina 4", "Pagina 5", "Pagina 6" };
 
     /**
      * 2. Page, el cual manejará animaciones y permitirá desplazamientos horizontales para
@@ -128,8 +129,18 @@ public class ScreenSlidePagerActivity extends FragmentActivity{
          */
         @Override
         public Fragment getItem(int position) {
-            //En este caso se crearan 5 fragments iguales con el titulo distinto
-            return ScreenSlidePageFragment.create(position);
+            Fragment f = null;
+
+            Log.e("Position", "position: " + position);
+            if(position < 5) {
+                //En este caso se crearan 5 fragments iguales con el titulo distinto
+                f = ScreenSlidePageFragment.create(position);
+            } else {
+                //Y un fragmento con un texto distinto
+                f = Fragmento6.nuevaInstancia(6, "Pagina 6");
+            }
+
+            return f;
         }
 
         @Override
