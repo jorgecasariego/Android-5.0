@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:background="@android:color/white">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/avatar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Jorge"
+        android:id="@+id/nombre"
+        android:textStyle="bold"
+        android:textColor="#424242"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/image"
+        android:layout_toEndOf="@+id/image"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Entrada: "
+        android:textColor="#424242"
+        android:id="@+id/tipo"
+        android:layout_below="@+id/nombre"
+        android:layout_alignLeft="@+id/nombre"
+        android:layout_alignStart="@+id/nombre" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="14:25"
+        android:textColor="#424242"
+        android:id="@+id/hora"
+        android:layout_below="@+id/nombre"
+        android:layout_toRightOf="@+id/tipo"
+        android:layout_alignBaseline="@+id/tipo" />
+
+
+</RelativeLayout>

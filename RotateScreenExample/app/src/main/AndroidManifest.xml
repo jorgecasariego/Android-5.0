@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.androidatc.rotatescreenexample" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <!--
+            Al configurar orientation|keyboardHidden evitamos que la actividad se reinicie (llame a
+            onDestroy() y luego a onCreate(). Por lo que tenemos que manejar los cambios por nuestra
+            cuenta.
+            Cuando ocurre un cambio lo que pasa ahora es que se llama al metodo onConfigurationChanged()
+            Este metodo recibe un objeto Configuration que especifica la nueva configuracion del dispositivo
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RotateScreenExample</string>
+
+    <string name="hello_world">Hola Mundo</string>
+    <string name="action_settings">Preferencias</string>
+    <string name="hint_edittext">Escribir algo</string>
+    <string name="button1">Boton 1</string>
+    <string name="button2">Boton 2</string>
+    <string name="button3">Boton 3</string>
+    <string name="button4">Boton 4</string>
+</resources>

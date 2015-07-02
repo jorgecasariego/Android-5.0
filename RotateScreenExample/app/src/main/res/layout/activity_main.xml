@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/valorEditText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:hint="@string/hint_edittext"
+        android:singleLine="true"
+        android:inputType="text"
+        android:gravity="center"/>
+
+    <Button
+        android:text="@string/button1"
+        style="@style/atc_button_style_vertifcal"/>
+
+    <Button
+        android:text="@string/button2"
+        style="@style/atc_button_style_vertifcal"/>
+
+</LinearLayout>
