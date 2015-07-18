@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="50dp"
+    android:layout_marginTop="50dp">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:text="¿Desea seguir aprendiendo Android en el Futuro?"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/positiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titulo"
+        android:layout_below="@+id/titulo"
+        android:text="Si" />
+
+    <Button
+        android:id="@+id/negativeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/titulo"
+        android:layout_below="@+id/titulo"
+        android:text="No" />
+
+
+</RelativeLayout>

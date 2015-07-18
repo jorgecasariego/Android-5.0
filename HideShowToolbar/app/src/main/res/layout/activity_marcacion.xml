@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    ~ CoordinatorLayout es un nuevo layout que permite crear interacciones entre vistas que se
+    ~ inserten dentro de esta. Así como dice en la documentación esta es un FrameLayout con esteroides
+    ~ Ésta intercepta eventos de touch y deja insetar los propios (comportamientos)
+
+-->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+        AppBarLayout es una versión mejorada de LinearLayout que permite especificar
+        interacciones de scrolling. Es posible crear efectos de collapsing con el Toolbar
+        o cualquier otra cosa.
+
+        Es tan simple como poner dentro del layout y configurar algunos atributos. Pero está
+        diseñado para trabajar en conjunto con CoordinatorLayout así que si usamos con algun
+        otro ViewGroup perderemos gran parte de su funcionalidad
+    -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+            <!--
+                Es una nueva version Material de los tabs para Android
+            -->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorHeight="6dp"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@android:color/white" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!--<android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_favorite_outline_white_24dp"
+        app:borderWidth="0dp"
+        app:layout_behavior="pl.michalz.hideonscrollexample.ScrollingFABBehavior" />-->
+</android.support.design.widget.CoordinatorLayout>
