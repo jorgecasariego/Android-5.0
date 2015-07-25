@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:textStyle="bold"
+        android:text="Formulario" />
+
+    <EditText android:id="@+id/nombre"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Nombre"
+        android:layout_below="@+id/titulo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <EditText android:id="@+id/apellido"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Apellido"
+        android:layout_below="@+id/nombre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <Button android:id="@+id/guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/apellido"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Guardar Datos"/>
+
+    <Button android:id="@+id/limpiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/guardar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Limpiar Datos"/>
+
+
+</RelativeLayout>

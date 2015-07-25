@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.androidatc.dailyfortune.MainActivity">
+
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Ingrese su nombre: "
+        android:gravity="center"
+        />
+
+    <EditText android:id="@+id/etNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/tvNombre"/>
+
+    <Button android:id="@+id/comenzar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comenzar"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/etNombre"/>
+
+</RelativeLayout>

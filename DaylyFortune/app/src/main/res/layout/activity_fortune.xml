@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@android:color/black"
+    tools:context="com.androidatc.dailyfortune.FortuneActivity">
+
+    <TextView
+        android:id="@+id/fortune"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:text="@string/hello_world"
+        android:textColor="@android:color/holo_blue_dark"/>
+
+    <TextView
+        android:id="@+id/autor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/fortune"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@android:color/holo_green_dark"
+        android:layout_marginTop="5dp"
+        android:text="@string/hello_world" />
+
+
+
+</RelativeLayout>
