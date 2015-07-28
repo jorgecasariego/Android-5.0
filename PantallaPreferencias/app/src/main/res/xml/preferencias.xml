@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    El contenedor principal de la pantalla de preferencias será el elemento <PreferesScreen>,
+    este elemento representa la pantalla de opciones en si dentro la cual incluiremos el
+    resto de componentes.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Datos Personales">
+        <EditTextPreference
+            android:dialogTitle="Ingresa tu nombre"
+            android:key="nombre"
+            android:summary="Introduce tu nombre"
+            android:title="Nombre"/>
+
+        <ListPreference
+            android:dialogTitle="Indica tu sexo"
+            android:entries="@array/opcionSexo"
+            android:entryValues="@array/opcionSexo"
+            android:key="sexo"
+            android:summary="Indica tu sexo"
+            android:title="Sexo"
+            />
+
+        <CheckBoxPreference
+            android:key="edad"
+            android:summary="Indica si erers mayor de edad"
+            android:title="Edad" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Sonido">
+        <CheckBoxPreference
+            android:key="sonido"
+            android:summary="Indica si quieres jugar con sonido"
+            android:title="Sonido"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Preferencias Personales">
+        <MultiSelectListPreference
+            android:key="opcion1"
+            android:title="Varios buscadores"
+            android:summary="Indica varios buscadores"
+            android:dialogTitle="Selecciona buscador"
+            android:entries="@array/opcionPreferencia1"
+            android:entryValues="@array/opcionPreferencia2"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

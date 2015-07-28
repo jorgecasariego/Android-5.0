@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class SubActivity extends AppCompatActivity {
+public class  SubActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 

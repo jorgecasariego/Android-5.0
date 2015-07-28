@@ -1,30 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<!--<org.lucasr.dspec.DesignSpecFrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b5a8af"
-    tools:context="com.androidatc.materialdesign.NavigationDrawerFragment">
-
-    <LinearLayout
-        android:id="@+id/container_drawer_image"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:designSpec="@raw/spec"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+-->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_marginTop="@dimen/drawer_margin_top"
-            android:layout_width="280dp"
-            android:layout_height="140dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_abstract"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="#b5a8af"
+        tools:context="com.androidatc.materialdesign.NavigationDrawerFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/drawerList"
-        android:layout_below="@+id/container_drawer_image"
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/container_drawer_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginTop="@dimen/drawer_margin_top"
+                android:layout_width="280dp"
+                android:layout_height="140dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_abstract"/>
+        </LinearLayout>
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/drawerList"
+            android:layout_below="@+id/container_drawer_image"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+<!--
+</org.lucasr.dspec.DesignSpecFrameLayout>
+-->

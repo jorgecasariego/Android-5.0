@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="opcionSexo">
+        <item>Hombre</item>
+        <item>Mujer</item>
+    </string-array>
+
+    <string-array name="opcionPreferencia1">
+        <item>Peliculas</item>
+        <item>Informática</item>
+        <item>Libros</item>
+        <item>Juegos</item>
+    </string-array>
+
+    <string-array name="opcionPreferencia2">
+        <item>Pe</item>
+        <item>Inf</item>
+        <item>Li</item>
+        <item>Jue</item>
+    </string-array>
+
+    <string-array name="empty_array"/>
+</resources>

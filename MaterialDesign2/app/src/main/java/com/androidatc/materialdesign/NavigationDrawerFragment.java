@@ -2,6 +2,7 @@ package com.androidatc.materialdesign;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +26,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment{
 
     private RecyclerView recyclerView;
     public static final String PREF_FILE_NAME = "testPref";
@@ -67,8 +72,30 @@ public class NavigationDrawerFragment extends Fragment {
         //Asociamos el recyclerView con su ID
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         adapter = new InformationAdapter(getActivity(), getData());
+
+        //Tecnica 2 utilizada para el click
+        //adapter.setClickListener(this);
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        /**
+         * Tecnica 3 de manejos de clicks
+         *
+         * Esta es la manera de manejar los eventos de clicks y longClicks con un GestureDectector personalizado
+         * afuera de nuestro Adaptador y dentro de nuestra actividad o fragment usando estos metodos
+         */
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Toast.makeText(getActivity(), "onClick " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View v, int position) {
+                Toast.makeText(getActivity(), "onLongClick " + position, Toast.LENGTH_SHORT).show();
+            }
+        }));
 
         return  layout;
     }
@@ -89,7 +116,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
 
         //Asociamos el containerView al navigationDrawer que pasamos como parametro del metodo setUp()
-        //luegoe ste containerView usaremos en el metodo openDrawer para abrir el NavigationDrawer cuando pulsamos sobre el icono
+        //luego este containerView usaremos en el metodo openDrawer para abrir el NavigationDrawer cuando pulsamos sobre el icono
         containerView = getActivity().findViewById(fragmentId);
 
         mDrawerLayout = drawerLayout;
@@ -145,6 +172,80 @@ public class NavigationDrawerFragment extends Fragment {
         });
     }
 
+    /**
+     * Tecnica 3 de manejos de clicks
+     *
+     * Esta es la manera de manejar los eventos de clicks y longClicks con un GestureDectector personalizado
+     * afuera de nuestro Adaptador y dentro de nuestra actividad o fragment usando estos metodos
+     */
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+
+        private GestureDetector gestureDetector;
+        private ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener){
+            Log.d("Material Design Ejemplo", "constructor RecyclerTouchListener invocado");
+            this.clickListener = clickListener;
+
+            /**
+             * Lo que hacemos aqui es crear una instancia de gestureDetector para manejar el evento de click
+             * con onSingleTapUp y longClick con el metodo onLongPress
+             */
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
+                /**
+                 *
+                 * En ambos metodos usamos el objeto MotionEvent para obtener las coordenadas llamando a
+                 * getX y getY para recuperar la vista hija que fue clickeada dentro del RecyclerView y así lanzar
+                 * los eventos al objeto clickListener el cual implementa la interfaz personalizada el cual soporta los eventos
+                 * de click y long click
+                 */
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    Log.d("Material Design Ejemplo", "onSingleTapUp");
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+
+                    if(child != null && clickListener != null){
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                    }
+                    Log.d("Material Design Ejemplo", "onLongPress");
+
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+
+            if(child != null && clickListener != null && gestureDetector.onTouchEvent(e)){
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
+
+
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            Log.d("Material Design Ejemplo", "onTouchEvent: " + e);
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    }
+
+    public static interface ClickListener{
+        public void onClick(View v, int position);
+        public void onLongClick(View v, int position);
+    }
+
     public static void saveToPreferences(Context context, String preferencesName, String preferencesValues){
         SharedPreferences sp = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -156,4 +257,15 @@ public class NavigationDrawerFragment extends Fragment {
         SharedPreferences sp = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
         return sp.getString(preferencesName, defaultValue);
     }
+
+    /**
+     *  Utilizado para la tecnica 2 de click
+     *
+     *
+
+     @Override
+    public void itemClicked(View v, int position) {
+        startActivity(new Intent(getActivity(), SubActivity.class));
+    }
+     */
 }
