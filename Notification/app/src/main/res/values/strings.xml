@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Notification</string>
+
+    <string name="max_priority">Max Priority</string>
+    <string name="high_priority">High Priority</string>
+    <string name="default_priority">Default Priority</string>
+    <string name="low_priority">Low Priority</string>
+    <string name="min_priority">Min Priority</string>
+    <string name="random_priority">Random Priority</string>
+    <string name="big_text">Big Text</string>
+    <string name="title">Android Notifications</string>
+    <string name="old">Old Notification</string>
+    <string name="big_picture">Big Picture</string>
+    <string name="inbox_type">Inbox Type</string>
+    <string name="summary_text">Android device fragmentation has increased, dramatically so in many cases. In 2013, 11,868 distinct devices were represented in OpenSignal’s annual report. In 2014, that number rose to 18,796. One year later, the number has reached an astounding 24,093</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+</resources>

@@ -97,6 +97,36 @@ public class DatabaseAdapter {
         return buffer.toString();
     }
 
+    public void prueba(){
+        String table_name = "course_activity";
+        String columns[] = {"course_activity.course_id",
+                             "course_activity.activity_id",
+                             "courses.name",
+                             "activities.name",
+                             };
+
+        //2. Creamos un cursor para movernos a traves de las filas
+        Cursor cursor = db.query(table_name,
+                columns,
+                null, null, null, null, null
+        );
+
+        final String MY_QUERY = "SELECT "
+                + "course_activity.course_id, "
+                + "course_activity.activity_id, "
+                + "courses.name, "
+                + "activities.name "
+                + "FROM "
+                + "course_activity "
+                + "INNER JOIN activities ON course_activity.activity_id = activities._id "
+                + "INNER JOIN courses ON course_activity.course_id = courses._id "
+                + "WHERE course_activity.course_id =?";
+
+        String courseID = String.valueOf(course_id);
+
+        Cursor cursor = database.rawQuery(MY_QUERY, new String[] {courseID});
+    }
+
     //13. Este metodo nos devuelve la contraseña de un usuario
     public String getUserPassword(String nombreUsuario){
         //1. EL select que estaríamos simulando es el siguiente:
