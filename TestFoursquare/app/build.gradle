@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 22
+    buildToolsVersion "23.0.0 rc3"
 
     defaultConfig {
-        applicationId "com.androidatc.daylyfortune"
+        applicationId "com.example.jorgecasariego.testfoursquare"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1

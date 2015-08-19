@@ -220,8 +220,6 @@ public class DatabaseAdapter {
             //5. Ejecutamos el query para crear la base de datos
             db.execSQL(CREATE_TABLE);
             Toast.makeText(_context, "onCreate llamado", Toast.LENGTH_SHORT).show();
-
-
         }
 
         // Metodo llamado para la actualizacion de tablas
