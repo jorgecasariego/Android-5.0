@@ -54,6 +54,10 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
         notifyItemRemoved(position);
     }
 
+    //  Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+    //  This new ViewHolder should be constructed with a new View that can represent the items of the given type.
+    //  You can either create a new View manually or inflate it from an XML layout file.
+    //  Aqui lo que hacemos es crear la vista y luego pasar el ViewHolder para asociar con sus id's en el custom_row.xml
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.custom_row, parent, false);
@@ -61,6 +65,11 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
         return holder;
     }
 
+    //  Called by RecyclerView to display the data at the specified position.
+    //  This method should update the contents of the itemView to reflect the item at the given position.
+    //  Este metodo despliega los datos en la posicion indicada a partir del holder recibido.
+    //  En nuestro caso obtenemos los datos a partir de nuestro modelo Information en la posicion indicada
+    //  y lo seteamos en el holder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Information information = data.get(position);
@@ -79,7 +88,7 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
     }
 
 
-
+    // A ViewHolder describes an item view and metadata about its place within the RecyclerView.
     class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView title;

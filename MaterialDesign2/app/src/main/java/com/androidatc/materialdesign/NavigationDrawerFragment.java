@@ -100,6 +100,8 @@ public class NavigationDrawerFragment extends Fragment{
         return  layout;
     }
 
+    //  cargamos el objeto Information con los datos que se van a mostrar en el Recycler View
+    //  Este objeto luego lo usaremos en InformationAdapter al crear cada una de las celdas
     public static List<Information> getData(){
         List<Information> data = new ArrayList<Information>();
         int[] iconos = {R.drawable.ic_number1, R.drawable.ic_number2, R.drawable.ic_number3, R.drawable.ic_number4};

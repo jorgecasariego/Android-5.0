@@ -43,8 +43,8 @@ public class MainActivity extends ListActivity {
     // the foursquare client_id and the client_secret
 
     // ============== YOU SHOULD MAKE NEW KEYS ====================//
-    final String CLIENT_ID = "MNWPOOKORV5NOPAWK3WWERXUH5SO1XIKTUQAQCDXAOGERVGP";
-    final String CLIENT_SECRET = "HAO2P0AAEA5ORDOYZOCJGLTRNR243DUN4ORYTRR5GAMZGL4M";
+    final String CLIENT_ID = "YOUR_CLIENT_ID";
+    final String CLIENT_SECRET = "YOUR_CLIENT_SECRET";
 
     // we will need to take the latitude and the logntitude from a certain point
     // this is the center of New York
