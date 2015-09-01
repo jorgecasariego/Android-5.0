@@ -24,7 +24,25 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by jorgecasariego on 6/7/15.
+ *
+ * Pasos para manejar los click en Recycler
+ * 1. Create a class that extends RecyclerView.OnItemTouchListener
+ *
+ * 2. Create an interface inside that class that supports click and indicates the View that was
+ *    clicked and the position where it was clicked
+ *
+ * 3. Create a GestureDetector to detect ACTION_UP single tap and long press event
+ *
+ * 4. Return true from the singleTap to indicate your GestureDetector has consume the event
+ *
+ * 5. Find the childView containing the coordinates specified by the MotionEvent and if the
+ *    childView is not null and the listener is not null either, fire a long click event
+ *
+ * 6. Use the onInterceptTouchEvent of your RecyclerView to check if the childView is not null,
+ *    the listener is not null and the gesture detector consumed the touch event
+ *
+ * 7. If above condition holds true, fire the event
  */
 public class NavigationDrawerFragment extends Fragment{
 
@@ -74,6 +92,8 @@ public class NavigationDrawerFragment extends Fragment{
         adapter = new InformationAdapter(getActivity(), getData());
 
         //Tecnica 2 utilizada para el click
+        //En este caso le decimos que el fragment es el encargado de implementar el onClick de la
+        //lista del RecyclerView
         //adapter.setClickListener(this);
 
         recyclerView.setAdapter(adapter);
@@ -174,7 +194,23 @@ public class NavigationDrawerFragment extends Fragment{
         });
     }
 
+    public static void saveToPreferences(Context context, String preferencesName, String preferencesValues){
+        SharedPreferences sp = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(preferencesName, preferencesValues);
+        editor.apply();
+    }
+
+    public static String readToPreferences(Context context, String preferencesName, String defaultValue){
+        SharedPreferences sp = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+        return sp.getString(preferencesName, defaultValue);
+    }
+
     /**
+     * **********************************************************************
+     * 1. Create a class that extends RecyclerView.OnItemTouchListener
+     * **********************************************************************
+     *
      * Tecnica 3 de manejos de clicks
      *
      * Esta es la manera de manejar los eventos de clicks y longClicks con un GestureDectector personalizado
@@ -243,28 +279,23 @@ public class NavigationDrawerFragment extends Fragment{
         }
     }
 
+    /**
+     *
+     ****************************************************************************
+     * 2. Create an interface inside that class that supports click and indicates
+     *    the View that wasclicked and the position where it was clicked
+     ****************************************************************************
+     */
     public static interface ClickListener{
         public void onClick(View v, int position);
         public void onLongClick(View v, int position);
     }
 
-    public static void saveToPreferences(Context context, String preferencesName, String preferencesValues){
-        SharedPreferences sp = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(preferencesName, preferencesValues);
-        editor.apply();
-    }
 
-    public static String readToPreferences(Context context, String preferencesName, String defaultValue){
-        SharedPreferences sp = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        return sp.getString(preferencesName, defaultValue);
-    }
 
     /**
      *  Utilizado para la tecnica 2 de click
      *
-     *
-
      @Override
     public void itemClicked(View v, int position) {
         startActivity(new Intent(getActivity(), SubActivity.class));

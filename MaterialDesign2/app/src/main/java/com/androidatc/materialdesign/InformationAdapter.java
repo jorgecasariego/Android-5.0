@@ -78,6 +78,8 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
     }
 
     /*
+    //Tecnica 2
+    //Aqui tenemos una referencia al fragment encargado de manejar el click del RecyclerView
     public void setClickListener(ClickListener clickListener){
         this.clickListener = clickListener;
     }*/
@@ -105,6 +107,11 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
         @Override
         public void onClick(View v) {
             //Tecnica 1 para el click
+            /**
+            *  Iniciar una actividad debe ser responsabilidad de la actividad no del adaptador como en este caso
+            *  por eso esta  tecnica no es recomendada. Si iniciamos una actividad lo debemos hacer desde
+            *  la actividad o desde el fragment
+            *
             //context.startActivity(new Intent(context, SubActivity.class));
 
             //Tecnica 2 para manejo de clicks
@@ -115,8 +122,9 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
     }
 
     /*
-    //Usado para la tecnica 1
-
+    //Usado para la tecnica 2
+    //Lo bueno de la tecnica 2 es que haciendo de esta manera podemos utilizar el mismo adapter
+    //para cualquier RecyclerView
     public interface ClickListener{
         public void itemClicked(View v, int position);
     }*/
