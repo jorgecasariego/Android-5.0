@@ -1,4 +1,4 @@
-package com.androidatc.materialdesign;
+package com.androidatc.materialdesign.pojo;
 
 /**
  * Created by jorgecasariego on 6/7/15.
