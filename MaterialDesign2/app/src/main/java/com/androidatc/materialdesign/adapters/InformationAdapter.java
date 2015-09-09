@@ -1,4 +1,4 @@
-package com.androidatc.materialdesign;
+package com.androidatc.materialdesign.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidatc.materialdesign.R;
 import com.androidatc.materialdesign.pojo.Information;
 
 import java.util.Collections;

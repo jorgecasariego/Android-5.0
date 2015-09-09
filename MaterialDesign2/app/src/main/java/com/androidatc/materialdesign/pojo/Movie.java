@@ -13,11 +13,13 @@ import java.util.Date;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.androidatc.materialdesign.loggin.L;
+
 import java.util.Date;
 
 public class Movie implements Parcelable {
 
-    /*public static final Parcelable.Creator<Movie> CREATOR
+    public static final Parcelable.Creator<Movie> CREATOR
             = new Parcelable.Creator<Movie>() {
         public Movie createFromParcel(Parcel in) {
             L.m("create from parcel :Movie");
@@ -27,7 +29,8 @@ public class Movie implements Parcelable {
         public Movie[] newArray(int size) {
             return new Movie[size];
         }
-    };*/
+    };
+
     private long id;
     private String title;
     private Date releaseDateTheater;

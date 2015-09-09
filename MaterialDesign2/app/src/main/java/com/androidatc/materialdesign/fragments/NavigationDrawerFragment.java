@@ -1,4 +1,4 @@
-package com.androidatc.materialdesign;
+package com.androidatc.materialdesign.fragments;
 
 
 import android.content.Context;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.androidatc.materialdesign.adapters.InformationAdapter;
+import com.androidatc.materialdesign.R;
 import com.androidatc.materialdesign.pojo.Information;
 
 import java.util.ArrayList;

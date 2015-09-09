@@ -1,10 +1,9 @@
-package com.androidatc.materialdesign;
+package com.androidatc.materialdesign.activities;
 
-import android.content.Context;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,22 +13,33 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
-import com.androidatc.materialdesign.tab.SlidingTabLayout;
+import com.androidatc.materialdesign.R;
+import com.androidatc.materialdesign.extras.SortListener;
+import com.androidatc.materialdesign.fragments.FragmentBoxOffice;
+import com.androidatc.materialdesign.fragments.FragmentSearch;
+import com.androidatc.materialdesign.fragments.FragmentUpcomming;
+import com.androidatc.materialdesign.fragments.MyFragment;
+import com.androidatc.materialdesign.fragments.NavigationDrawerFragment;
+import com.androidatc.materialdesign.loggin.L;
+import com.androidatc.materialdesign.services.MyService;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
 
 
 /**
@@ -43,10 +53,12 @@ import it.neokree.materialtabs.MaterialTabListener;
  * 7. Personzalizar las diferentes propiedades del ToolBar ya sea usando el objeto toolBar
  *    directamente o usando getSupportActionBar()
  */
-public class MainActivity extends AppCompatActivity implements MaterialTabListener{
+public class MainActivity extends AppCompatActivity implements MaterialTabListener, OnClickListener{
 
+    private static final int JOB_ID = 100;
     private Toolbar toolbar;
     private ViewPager mPager;
+    private ViewPagerAdapter mAdapter;
     //private SlidingTabLayout mTabs;
     private MaterialTabHost tabHost;
 
@@ -54,10 +66,19 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     public static final int MOVIES_HITS = 1;
     public static final int MOVIES_UPCOMING = 2;
 
+    private static final String TAG_SORT_NAME = "sortName";
+    private static final String TAG_SORT_DATE = "sortDate";
+    private static final String TAG_SORT_RATINGS = "sortRatings";
+
+    private JobScheduler mJobScheduler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mJobScheduler = JobScheduler.getInstance(this);
+        constructJob();
 
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -80,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
 
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(adapter);
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mAdapter);
         //when the page changes in the ViewPager, update the Tabs accordingly
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -91,13 +112,69 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
             }
         });
         //Add all the Tabs to the TabHost
-        for (int i = 0; i < adapter.getCount(); i++) {
+        for (int i = 0; i < mAdapter.getCount(); i++) {
             tabHost.addTab(
                     tabHost.newTab()
-                            .setIcon(adapter.getIcon(i))
+                            .setIcon(mAdapter.getIcon(i))
                             .setTabListener(this));
         }
 
+        buildFab();
+    }
+
+    private void constructJob(){
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
+
+        builder.setPeriodic(4000)
+        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+        .setPersisted(true);
+
+        mJobScheduler.schedule(builder.build());
+    }
+
+    private void buildFab() {
+        // define the icon for the main floating action button
+        ImageView icon = new ImageView(this); // Create an icon
+        icon.setImageResource(R.drawable.ic_action_new);
+
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .setBackgroundDrawable(R.drawable.selector_button_red)
+                .build();
+
+        //define the icons for the sub action buttons
+        ImageView iconSortName = new ImageView(this);
+        iconSortName.setImageResource(R.drawable.ic_action_alphabets);
+        ImageView iconSortDate = new ImageView(this);
+        iconSortDate.setImageResource(R.drawable.ic_action_calendar);
+        ImageView iconSortRatings = new ImageView(this);
+        iconSortRatings.setImageResource(R.drawable.ic_action_important);
+
+        //set the background for all the sub buttons
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_sub_button_gray));
+
+        //build the sub buttons
+        SubActionButton buttonSortName = itemBuilder.setContentView(iconSortName).build();
+        SubActionButton buttonSortDate = itemBuilder.setContentView(iconSortDate).build();
+        SubActionButton buttonSortRatings = itemBuilder.setContentView(iconSortRatings).build();
+
+        buttonSortDate.setTag(TAG_SORT_DATE);
+        buttonSortName.setTag(TAG_SORT_NAME);
+        buttonSortRatings.setTag(TAG_SORT_RATINGS);
+
+        buttonSortDate.setOnClickListener(this);
+        buttonSortName.setOnClickListener(this);
+        buttonSortRatings.setOnClickListener(this);
+
+        //add the sub buttons to the main floating action button
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonSortName)
+                .addSubActionView(buttonSortDate)
+                .addSubActionView(buttonSortRatings)
+                .attachTo(actionButton)
+                .build();
     }
 
     @Override
@@ -138,6 +215,28 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     @Override
     public void onTabUnselected(MaterialTab materialTab) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        //Obtenemos el fragment actual
+        Fragment fragment = (Fragment) mAdapter.instantiateItem(mPager, mPager.getCurrentItem());
+
+        if(fragment instanceof SortListener) {
+            switch (v.getTag().toString()){
+                case TAG_SORT_DATE:
+                    ((SortListener) fragment).onSortByDate();
+                    break;
+                case TAG_SORT_NAME:
+                    ((SortListener) fragment).onSortByName();
+
+                    break;
+                case TAG_SORT_RATINGS:
+                    ((SortListener) fragment).onSortByRating();
+                    break;
+            }
+        }
 
     }
 
@@ -198,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                     fragment = FragmentBoxOffice.newInstance("", "");
                     break;
                 case MOVIES_UPCOMING:
-                    fragment = FragmentUpcomming .newInstance("", "");
+                    fragment = FragmentUpcomming.newInstance("", "");
                     break;
             }
 

@@ -1,16 +1,19 @@
-package com.androidatc.materialdesign;
+package com.androidatc.materialdesign.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidatc.materialdesign.R;
+import com.androidatc.materialdesign.extras.SortListener;
+import com.androidatc.materialdesign.loggin.L;
+
 /**
  * Created by jorgecasariego on 1/9/15.
  */
-public class FragmentSearch extends Fragment {
+public class FragmentSearch extends Fragment implements SortListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -34,5 +37,20 @@ public class FragmentSearch extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_search, container, false);
 
         return layout;
+    }
+
+    @Override
+    public void onSortByName() {
+        L.t(getActivity(), "Sort name SEARCH was clicked");
+    }
+
+    @Override
+    public void onSortByDate() {
+        L.t(getActivity(), "Sort date SEARCH was clicked");
+    }
+
+    @Override
+    public void onSortByRating() {
+        L.t(getActivity(), "Sort rating SEARCH was clicked");
     }
 }

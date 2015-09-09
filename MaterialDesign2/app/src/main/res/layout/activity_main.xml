@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
-        tools:context="com.androidatc.materialdesign.MainActivity">
+        tools:context="com.androidatc.materialdesign.activities.MainActivity">
 
         <include
             android:id="@+id/app_bar"
@@ -62,7 +62,7 @@
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:name="com.androidatc.materialdesign.NavigationDrawerFragment"
+        android:name="com.androidatc.materialdesign.fragments.NavigationDrawerFragment"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"

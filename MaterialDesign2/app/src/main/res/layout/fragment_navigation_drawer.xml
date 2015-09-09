@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#b5a8af"
-        tools:context="com.androidatc.materialdesign.NavigationDrawerFragment">
+        tools:context="com.androidatc.materialdesign.fragments.NavigationDrawerFragment">
 
         <LinearLayout
             android:id="@+id/container_drawer_image"
