@@ -21,13 +21,24 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
     //Librería para saber si las medidas de nuestro proyecto son las de material design
     //Para mas informacion mirar aqui: https://github.com/lucasr/dspec
+    
+
+    //Para animaciones en recyler view
+
+
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'org.lucasr.dspec:dspec:0.1.1'
     compile 'com.mcxiaoke.volley:library:1.0.18'
     compile 'it.neokree:MaterialTabs:0.11'
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
     compile 'me.tatarka.support:jobscheduler:0.1.1'
+    compile 'jp.wasabeef:recyclerview-animators:1.2.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.1@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    compile 'com.pkmmte.view:circularimageview:1.1'
+    compile 'com.android.support:design:22.2.1'
 }

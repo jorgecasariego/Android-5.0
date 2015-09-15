@@ -4,8 +4,10 @@ package com.androidatc.materialdesign.pojo;
  * Created by jorgecasariego on 6/7/15.
  */
 public class Information {
-    int iconId;
-    String title;
+    public int iconId;
+    public String title;
+
+    /*
 
     public Information(int iconId, String title) {
         this.iconId = iconId;
@@ -26,5 +28,5 @@ public class Information {
 
     public void setTitle(String title) {
         this.title = title;
-    }
+    }*/
 }

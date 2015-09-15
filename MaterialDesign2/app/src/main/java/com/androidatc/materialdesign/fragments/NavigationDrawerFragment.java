@@ -131,7 +131,7 @@ public class NavigationDrawerFragment extends Fragment{
         String[] titulos = {"Titulo 1","Titulo 2","Titulo 3","Titulo 4"};
 
         for (int i=0; i<titulos.length && i< iconos.length; i++){
-            Information j = new Information(iconos[i], titulos[i]);
+            Information j = new Information();
             data.add(j);
         }
 

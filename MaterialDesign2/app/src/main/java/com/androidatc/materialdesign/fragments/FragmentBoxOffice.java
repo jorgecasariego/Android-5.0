@@ -2,6 +2,7 @@ package com.androidatc.materialdesign.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.androidatc.materialdesign.MyApplication;
 import com.androidatc.materialdesign.R;
 import com.androidatc.materialdesign.adapters.AdapterBoxOffice;
+import com.androidatc.materialdesign.callbacks.BoxOfficeMoviesLoadedListener;
+import com.androidatc.materialdesign.database.DBMovies;
 import com.androidatc.materialdesign.extras.Constants;
 import com.androidatc.materialdesign.extras.MovieSorter;
 import com.androidatc.materialdesign.extras.SortListener;
@@ -31,6 +34,7 @@ import com.androidatc.materialdesign.loggin.L;
 import com.androidatc.materialdesign.network.VolleySingleton;
 
 import com.androidatc.materialdesign.pojo.Movie;
+import com.androidatc.materialdesign.task.TaskLoadMoviesBoxOffice;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +52,7 @@ import static com.androidatc.materialdesign.extras.UrlEndPoints.*;
 /**
  * Created by jorgecasariego on 1/9/15.
  */
-public class FragmentBoxOffice extends Fragment implements SortListener{
+public class FragmentBoxOffice extends Fragment implements SortListener, BoxOfficeMoviesLoadedListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String STATE_MOVIES = "state_movies";
@@ -56,12 +60,7 @@ public class FragmentBoxOffice extends Fragment implements SortListener{
     private String param1;
     private String param2;
 
-    private VolleySingleton volleySingleton;
-    private ImageLoader imageLoader;
-    private RequestQueue requestQueue;
-
     private ArrayList<Movie> listMovies = new ArrayList<>();
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private RecyclerView listMovieHits;
 
     private AdapterBoxOffice adapterBoxOffice;
@@ -71,6 +70,7 @@ public class FragmentBoxOffice extends Fragment implements SortListener{
 
     private MovieSorter mSorter = new MovieSorter();
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static FragmentBoxOffice newInstance(String param1, String param2){
         FragmentBoxOffice fragmentSearch = new FragmentBoxOffice();
@@ -95,6 +95,9 @@ public class FragmentBoxOffice extends Fragment implements SortListener{
 
         mTextError = (TextView) view.findViewById(R.id.textVolleyError);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeMovieHits);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         listMovieHits = (RecyclerView) view.findViewById(R.id.listMovies);
         listMovieHits.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -107,12 +110,18 @@ public class FragmentBoxOffice extends Fragment implements SortListener{
         // de parcelable
         if(savedInstanceState != null){
             listMovies = savedInstanceState.getParcelableArrayList(STATE_MOVIES);
-            adapterBoxOffice.setMovieList(listMovies);
         } else {
             // Solo enviamos un Json request la primera vez
-            sendJsonRequest();
+            //sendJsonRequest();
+            listMovies = MyApplication.getWritableDatabse().readMovies(DBMovies.BOX_OFFICE);
+
+            if(listMovies.isEmpty()){
+                L.t(getActivity(), "Ejecutando tarea desde el fragmento");
+                new TaskLoadMoviesBoxOffice(this).execute();
+            }
         }
 
+        adapterBoxOffice.setMovieList(listMovies);
 
 
         return view;
@@ -127,37 +136,13 @@ public class FragmentBoxOffice extends Fragment implements SortListener{
             param2 = getArguments().getString(ARG_PARAM2);
         }
 
-        volleySingleton = VolleySingleton.getInstance();
-        requestQueue = volleySingleton.getRequestQueue();
 
-        sendJsonRequest();
+        //sendJsonRequest();
 
 
     }
 
-    private void sendJsonRequest() {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                getRequestUrl(30),
-                (String) null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //L.t(getActivity(), response.toString());
-                        mTextError.setVisibility(View.GONE);
-                        listMovies = parseJsonRequest(response);
-                        adapterBoxOffice.setMovieList(listMovies);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleVolleyError(error);
-            }
-        });
-
-        requestQueue.add(request);
-    }
-
-    private void handleVolleyError(VolleyError error) {
+    /*private void handleVolleyError(VolleyError error) {
         //if any error occurs in the network operations, show the TextView that contains the error message
         mTextError.setVisibility(View.VISIBLE);
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -176,118 +161,8 @@ public class FragmentBoxOffice extends Fragment implements SortListener{
             mTextError.setText(R.string.error_parser);
             //TODO
         }
-    }
+    }*/
 
-    private ArrayList<Movie> parseJsonRequest(JSONObject response) {
-        ArrayList<Movie> listMovies = new ArrayList<>();
-
-        if(response != null || response.length() > 0) {
-
-
-            try {
-                StringBuilder data = new StringBuilder();
-
-                if (response.has(KEY_MOVIES)) {
-                    JSONArray arrayMovies = response.getJSONArray(KEY_MOVIES);
-
-                    for (int i = 0; i < arrayMovies.length(); i++) {
-                        long id = 0;
-                        String title = Constants.NA;
-                        String releaseDate = Constants.NA;
-                        int audienceScore = -1;
-                        String synopsis = Constants.NA;
-                        String urlThumbnail = Constants.NA;
-
-                        JSONObject currentMovie = arrayMovies.getJSONObject(i);
-
-                        //Obtenemos el id de la pelicula actual
-                        if(currentMovie.has(KEY_ID) && !currentMovie.isNull(KEY_ID)){
-                            id = currentMovie.getLong(KEY_ID);
-                        }
-
-                        if(currentMovie.has(KEY_TITLE) && !currentMovie.isNull(KEY_TITLE)){
-                            title = currentMovie.getString(KEY_TITLE);
-                        }
-
-                        if(currentMovie.has(KEY_RELEASE_DATES) && !currentMovie.isNull(KEY_RELEASE_DATES)){
-                            JSONObject objectReleaseDate = currentMovie.getJSONObject(KEY_RELEASE_DATES);
-
-                            if (objectReleaseDate != null
-                                    && objectReleaseDate.has(KEY_THEATER)
-                                    && !objectReleaseDate.isNull(KEY_THEATER)) {
-                                releaseDate = objectReleaseDate.getString(KEY_THEATER);
-                            }
-                        }
-
-
-
-
-                        JSONObject objectRating = currentMovie.getJSONObject(KEY_RATINGS);
-
-                        if (objectRating != null
-                                && objectRating.has(KEY_AUDIENCE_SCORE)
-                                && !objectRating.isNull(KEY_AUDIENCE_SCORE)) {
-
-                            audienceScore = objectRating.getInt(KEY_AUDIENCE_SCORE);
-                        }
-
-                        if(currentMovie.has(KEY_SYNOPSIS) && !currentMovie.isNull(KEY_SYNOPSIS)){
-                            synopsis = currentMovie.getString(KEY_SYNOPSIS);
-                        }
-
-                        if(currentMovie.has(KEY_POSTERS) && !currentMovie.isNull(KEY_POSTERS)){
-                            JSONObject objectPoster = currentMovie.getJSONObject(KEY_POSTERS);
-
-                            if (objectPoster != null
-                                    && objectPoster.has(KEY_THUMBNAIL)
-                                    && !objectPoster.isNull(KEY_THUMBNAIL)) {
-                                urlThumbnail = objectPoster.getString(KEY_THUMBNAIL);
-                            }
-                        }
-
-                        Movie movie = new Movie();
-                        movie.setId(id);
-                        movie.setTitle(title);
-
-                        Date date = null;
-                        try {
-                            date = dateFormat.parse(releaseDate);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        movie.setReleaseDateTheater(date);
-                        movie.setAudienceScore(audienceScore);
-                        movie.setSynopsis(synopsis);
-                        movie.setUrlThumbnail(urlThumbnail);
-
-                        //Aqui decidimos cuando cargar una pelicula a la lista de peliculas
-                        if(id != -1  && !title.equals(Constants.NA)){
-                            listMovies.add(movie);
-                        }
-
-
-                    }
-
-                    L.t(getActivity(), listMovies.toString());
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return listMovies;
-    }
-
-    public static String getRequestUrl(int limit){
-        return URL_BOX_OFFICE
-                + URL_CHAR_QUESTION
-                + MyApplication.API_KEY_ROTTEN_TOMATOES
-                + URL_CHAR_AMEPERSAND
-                + URL_PARAM_LIMIT
-                + limit;
-    }
 
     @Override
     public void onSortByName() {
@@ -308,5 +183,29 @@ public class FragmentBoxOffice extends Fragment implements SortListener{
     @Override
     public void onSortByRating() {
         L.t(getActivity(), "Sort rating BOX OFFICE was clicked");
+        mSorter.sortMoviesByRating(listMovies);
+        adapterBoxOffice.notifyDataSetChanged();
+    }
+
+    //En este metodo tenemos como parametros los datos que recibimos del AsyncTask
+    //Este metodo es llamado 2 veces:
+    // 1. Cuando cargamos la pantalla por primera vez y la BD esta vacia
+    // 2. Cuando hacemos swipeToRefresh
+    @Override
+    public void onBoxOfficeMoviesLoaded(ArrayList<Movie> listMovies) {
+        L.m("FragmentBoxOffice: onBoxOfficeMoviesLoaded Fragment");
+
+        //Si entra aqui al hacer swipe to refresh entonces debemos apagar el refreshing
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+
+        adapterBoxOffice.setMovieList(listMovies);
+    }
+
+    @Override
+    public void onRefresh() {
+        L.t(getActivity(), "onRefresh");
+        new TaskLoadMoviesBoxOffice(this).execute();
     }
 }

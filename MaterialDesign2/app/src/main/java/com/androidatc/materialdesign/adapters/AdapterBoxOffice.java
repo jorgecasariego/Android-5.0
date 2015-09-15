@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.androidatc.materialdesign.R;
+import com.androidatc.materialdesign.anim.AnimationUtils;
 import com.androidatc.materialdesign.extras.Constants;
 import com.androidatc.materialdesign.network.VolleySingleton;
 import com.androidatc.materialdesign.pojo.Movie;
@@ -39,6 +40,9 @@ public class AdapterBoxOffice extends RecyclerView.Adapter<AdapterBoxOffice.View
 
     // 18
     private DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    // 21 Creamoa variable para manejar animaciones
+    private int previousPosition = 0;
 
     // 2
     public AdapterBoxOffice(Context context) {
@@ -71,7 +75,9 @@ public class AdapterBoxOffice extends RecyclerView.Adapter<AdapterBoxOffice.View
     @Override
     public void onBindViewHolder(final ViewHolderBoxOffice holder, int position) {
         // 11
-        Movie currentMovie = new Movie();
+        //Movie currentMovie = new Movie();
+        Movie currentMovie = listMovies.get(position);
+
         holder.movieTitle.setText(currentMovie.getTitle());
 
         // 17
@@ -92,6 +98,23 @@ public class AdapterBoxOffice extends RecyclerView.Adapter<AdapterBoxOffice.View
             holder.movieAudienceScore.setRating(audienceScore / 20.0F);
             holder.movieAudienceScore.setAlpha(1.0F);
         }
+
+        // 20 Si queremos animar nuestra lista lo debemos hacer aqui
+        //    Para ello creamos una nueva clase que se encargue de la animacion de cada item de la lista
+
+        //    Scroll down
+        if(position > previousPosition){
+
+            //Going down
+            AnimationUtils.animate(holder, true);
+        } else {
+            //Going up
+            AnimationUtils.animate(holder, false);
+        }
+
+        previousPosition = position;
+
+
 
 
         // 14

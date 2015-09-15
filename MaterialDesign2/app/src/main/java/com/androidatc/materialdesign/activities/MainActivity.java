@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,11 +26,10 @@ import android.widget.ImageView;
 import com.androidatc.materialdesign.R;
 import com.androidatc.materialdesign.extras.SortListener;
 import com.androidatc.materialdesign.fragments.FragmentBoxOffice;
+import com.androidatc.materialdesign.fragments.FragmentDrawer;
 import com.androidatc.materialdesign.fragments.FragmentSearch;
 import com.androidatc.materialdesign.fragments.FragmentUpcomming;
 import com.androidatc.materialdesign.fragments.MyFragment;
-import com.androidatc.materialdesign.fragments.NavigationDrawerFragment;
-import com.androidatc.materialdesign.loggin.L;
 import com.androidatc.materialdesign.services.MyService;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -70,22 +70,75 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
     private static final String TAG_SORT_DATE = "sortDate";
     private static final String TAG_SORT_RATINGS = "sortRatings";
 
+    //Esta constante usamos para setear cada cuanto queremos que nuestro servicio busque datos nuevos
+    private static final long POLL_FREQUENCY = 28800000;
+
+
     private JobScheduler mJobScheduler;
+
+    private FragmentDrawer mDrawerFragment;
+
+    private FloatingActionButton mFAB;
+    private FloatingActionMenu mFABMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mJobScheduler = JobScheduler.getInstance(this);
-        constructJob();
+        buildFab();
+        setupTabs();
+        setupJob();
+        setupDrawer();
 
-        toolbar = (Toolbar)findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+    }
 
+    private void buildFab() {
+        // define the icon for the main floating action button
+        ImageView icon = new ImageView(this); // Create an icon
+        icon.setImageResource(R.drawable.ic_action_new);
+
+
+        mFAB = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .setBackgroundDrawable(R.drawable.selector_button_red)
+                .build();
+
+        //define the icons for the sub action buttons
+        ImageView iconSortName = new ImageView(this);
+        iconSortName.setImageResource(R.drawable.ic_action_alphabets);
+        ImageView iconSortDate = new ImageView(this);
+        iconSortDate.setImageResource(R.drawable.ic_action_calendar);
+        ImageView iconSortRatings = new ImageView(this);
+        iconSortRatings.setImageResource(R.drawable.ic_action_important);
+
+        //set the background for all the sub buttons
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_sub_button_gray));
+
+        //build the sub buttons
+        SubActionButton buttonSortName = itemBuilder.setContentView(iconSortName).build();
+        SubActionButton buttonSortDate = itemBuilder.setContentView(iconSortDate).build();
+        SubActionButton buttonSortRatings = itemBuilder.setContentView(iconSortRatings).build();
+
+        buttonSortDate.setTag(TAG_SORT_DATE);
+        buttonSortName.setTag(TAG_SORT_NAME);
+        buttonSortRatings.setTag(TAG_SORT_RATINGS);
+
+        buttonSortDate.setOnClickListener(this);
+        buttonSortName.setOnClickListener(this);
+        buttonSortRatings.setOnClickListener(this);
+
+        //add the sub buttons to the main floating action button
+        mFABMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonSortName)
+                .addSubActionView(buttonSortDate)
+                .addSubActionView(buttonSortRatings)
+                .attachTo(mFAB)
+                .build();
+    }
+
+    private void setupTabs() {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
@@ -119,63 +172,81 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                             .setTabListener(this));
         }
 
-        buildFab();
+
+
+    }
+
+    private void setupJob() {
+        mJobScheduler = JobScheduler.getInstance(this);
+
+        // EL problema que esta ocurriendo aqui es que estamos iniciando constructJob para poder
+        // obtener todos los datos del servidor. Pero al mismo tiempo estamos obteniendo los datos
+        // del servidor al llamar al fragment. Por lo que se va a estar llamando al mismo dato dos
+        // veces. Y nosotros no queremos eso. Queremos que el fragment sea el encargado de cargar
+        // los datos y luego inserte en la BD.
+        // Para no hacer eso, creamos un Handler delayed que espere 30 segundos antes de llamar
+        // al jobScheduler para que inicie el servicio
+        // una vez que el fragment haya cargado todos los datos cada 10 minutos se van a cargar datos
+        // nuevos el cual se inicia a partir de la llamada a constructJob
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                constructJob();
+            }
+        }, 30000);
+
+    }
+
+    private void setupDrawer() {
+        toolbar = (Toolbar)findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //NavigationDrawerdFragment drawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        //drawerFradgment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+
+        //mDrawerFragment = (FragmentDrawer)
+        //        getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        mDrawerFragment = (FragmentDrawer)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+
+        mDrawerFragment.setUp(
+                R.id.fragment_navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout),
+                toolbar);
+
+
+    }
+
+    //Dependiendo de donde hizo click el usuario en el drawer vamos a cambiar la pantalla
+    //A este metodo  se le llama desde el FragmentDrawer
+    public void onDrawerItemClicked(int index) {
+        mPager.setCurrentItem(index);
+    }
+
+    public void onDrawerSlide(float slideOffset) {
+        toggleTranslateFAB(slideOffset);
+    }
+
+    private void toggleTranslateFAB(float slideOffset) {
+        if (mFABMenu != null) {
+            if (mFABMenu.isOpen()) {
+                mFABMenu.close(true);
+            }
+            mFAB.setTranslationX(slideOffset * 200);
+        }
     }
 
     private void constructJob(){
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
 
-        builder.setPeriodic(4000)
+        builder.setPeriodic(POLL_FREQUENCY)
         .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
         .setPersisted(true);
 
         mJobScheduler.schedule(builder.build());
     }
 
-    private void buildFab() {
-        // define the icon for the main floating action button
-        ImageView icon = new ImageView(this); // Create an icon
-        icon.setImageResource(R.drawable.ic_action_new);
 
-
-        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
-                .setContentView(icon)
-                .setBackgroundDrawable(R.drawable.selector_button_red)
-                .build();
-
-        //define the icons for the sub action buttons
-        ImageView iconSortName = new ImageView(this);
-        iconSortName.setImageResource(R.drawable.ic_action_alphabets);
-        ImageView iconSortDate = new ImageView(this);
-        iconSortDate.setImageResource(R.drawable.ic_action_calendar);
-        ImageView iconSortRatings = new ImageView(this);
-        iconSortRatings.setImageResource(R.drawable.ic_action_important);
-
-        //set the background for all the sub buttons
-        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_sub_button_gray));
-
-        //build the sub buttons
-        SubActionButton buttonSortName = itemBuilder.setContentView(iconSortName).build();
-        SubActionButton buttonSortDate = itemBuilder.setContentView(iconSortDate).build();
-        SubActionButton buttonSortRatings = itemBuilder.setContentView(iconSortRatings).build();
-
-        buttonSortDate.setTag(TAG_SORT_DATE);
-        buttonSortName.setTag(TAG_SORT_NAME);
-        buttonSortRatings.setTag(TAG_SORT_RATINGS);
-
-        buttonSortDate.setOnClickListener(this);
-        buttonSortName.setOnClickListener(this);
-        buttonSortRatings.setOnClickListener(this);
-
-        //add the sub buttons to the main floating action button
-        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(buttonSortName)
-                .addSubActionView(buttonSortDate)
-                .addSubActionView(buttonSortRatings)
-                .attachTo(actionButton)
-                .build();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -199,6 +270,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         if (id == R.id.navigate) {
             startActivity(new Intent(this, SubActivity.class));
         }
+        if (R.id.action_recycler_item_animations == id) {
+            startActivity(new Intent(this, ActivityRecylerAnimators.class));
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -218,6 +292,8 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     }
 
+    //Este onClick es para el boton de favorito
+    //Ordenamos la lista
     @Override
     public void onClick(View v) {
         //Obtenemos el fragment actual

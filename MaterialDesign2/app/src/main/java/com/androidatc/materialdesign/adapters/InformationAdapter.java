@@ -74,8 +74,8 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Information information = data.get(position);
-        holder.title.setText(information.getTitle());
-        holder.icon.setImageResource(information.getIconId());
+        holder.title.setText(information.title);
+        holder.icon.setImageResource(information.iconId);
     }
 
     /*

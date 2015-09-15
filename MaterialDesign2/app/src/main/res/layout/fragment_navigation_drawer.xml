@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:background="#b5a8af"
         tools:context="com.androidatc.materialdesign.fragments.NavigationDrawerFragment">
-
+<!--
         <LinearLayout
             android:id="@+id/container_drawer_image"
             android:layout_width="match_parent"
@@ -22,12 +22,10 @@
                 android:layout_height="140dp"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_abstract"/>
-        </LinearLayout>
+        </LinearLayout>-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/drawerList"
-            android:layout_below="@+id/container_drawer_image"
-            android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

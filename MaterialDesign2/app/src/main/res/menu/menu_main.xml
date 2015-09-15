@@ -14,4 +14,10 @@
         android:title="@string/next"
         app:showAsAction="always"
         android:icon="@drawable/ic_next"/>
+
+    <item
+        android:id="@+id/action_recycler_item_animations"
+        android:orderInCategory="500"
+        android:title="RecyclerItemAnimator"
+        app:showAsAction="never" />
 </menu>
