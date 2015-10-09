@@ -5,18 +5,21 @@
         Ahora se usa AppCompat
     -->
     <style name="AppTheme" parent="AppTheme.Base">
-        <item name="android:colorPrimary">@color/primaryColor</item>
-        <item name="android:colorPrimaryDark">@color/primaryColorDark</item>
-        <item name="android:colorAccent">@color/accentColor</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:colorControlHighlight">@color/colorHighlight</item>
+
+        <!-- enable window content transition -->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowTransitionBackgroundFadeDuration">5000</item>
+
     </style>
+    <!--
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-
+    -->
 
 </resources>

@@ -223,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         mPager.setCurrentItem(index);
     }
 
+    // A este metodo se le llama desde el FragmentDrawer cuando el drawer se esta deslizando
+    //Nosotros vamos a utilizar este metodo para llamar al toggleTranslateFab para esconder el
+    //boton mientras se desliza
     public void onDrawerSlide(float slideOffset) {
         toggleTranslateFAB(slideOffset);
     }
@@ -272,6 +275,9 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         }
         if (R.id.action_recycler_item_animations == id) {
             startActivity(new Intent(this, ActivityRecylerAnimators.class));
+        }
+        if (R.id.action_transition == id) {
+            startActivity(new Intent(this, ActivityA.class));
         }
 
         return super.onOptionsItemSelected(item);

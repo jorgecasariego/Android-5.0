@@ -42,10 +42,9 @@
             android:name=".activities.ActivityRecylerAnimators"
             android:label="@string/title_activity_activity_recyler_animators" >
         </activity>
-        <activity
-            android:name=".activities.ActivityA"
-            android:label="@string/title_activity_"
-            android:theme="@style/AppTheme.NoActionBar" >
+        <activity android:name=".activities.ActivityA" >
+        </activity>
+        <activity android:name=".activities.ActivityB" >
         </activity>
     </application>
 

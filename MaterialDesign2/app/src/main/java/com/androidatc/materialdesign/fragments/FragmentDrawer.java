@@ -147,6 +147,9 @@ public class FragmentDrawer extends Fragment {
                 getActivity().supportInvalidateOptionsMenu();
             }
 
+            // A este metodo se le llama cuando se desliza el drawer
+            //Aqui lo que hacemos entonces es llamar al onDrawerSlide en el MainAcitivity para
+            //esconder el Floating Button
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
