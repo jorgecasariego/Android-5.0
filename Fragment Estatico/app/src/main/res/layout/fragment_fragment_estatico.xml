@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hola, Soy un Fragment"
+        android:text="Hola, Soy un Fragment Estatico"
         android:gravity="center"
         android:textSize="20sp"/>
 

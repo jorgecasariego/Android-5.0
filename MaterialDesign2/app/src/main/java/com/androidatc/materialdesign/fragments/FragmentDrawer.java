@@ -98,7 +98,8 @@ public class FragmentDrawer extends Fragment {
         mAdapter = new AdapterDrawer(getActivity(), getData());
         mRecyclerDrawer.setAdapter(mAdapter);
         mRecyclerDrawer.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerDrawer.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerDrawer, new ClickListener() {
+        mRecyclerDrawer.addOnItemTouchListener(
+                new RecyclerTouchListener(getActivity(), mRecyclerDrawer, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);

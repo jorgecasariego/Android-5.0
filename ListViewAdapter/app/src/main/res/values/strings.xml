@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">ListViewAdapter</string>
+    <string-array name="titulo">
+        <item>Titulo 1</item>
+        <item>Titulo 2</item>
+        <item>Titulo 3</item>
+        <item>Titulo 4</item>
+        <item>Titulo 5</item>
+        <item>Titulo 6</item>
+        <item>Titulo 7</item>
+        <item>Titulo 8</item>
+        <item>Titulo 9</item>
+        <item>Titulo 10</item>
+    </string-array>
+
+    <string-array name="subtitulo">
+        <item>Subtitulo 1</item>
+        <item>Subtitulo 2</item>
+        <item>Subtitulo 3</item>
+        <item>Subtitulo 4</item>
+        <item>Subtitulo 5</item>
+        <item>Subtitulo 6</item>
+        <item>Subtitulo 7</item>
+        <item>Subtitulo 8</item>
+        <item>Subtitulo 9</item>
+        <item>Subtitulo 10</item>
+    </string-array>
+</resources>
