@@ -29,7 +29,6 @@ public class AnimationUtils{
 
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(holder.itemView, propx, propy);
 
-
         animator.setDuration(800);
         animator.start();
     }
