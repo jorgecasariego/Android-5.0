@@ -2,11 +2,12 @@ package com.androidatc.datatransfer;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class Activity2 extends ActionBarActivity {
+public class Activity2 extends AppCompatActivity {
 
     TextView nombreUsuario;
 

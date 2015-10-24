@@ -19,12 +19,30 @@
         <activity
             android:name=".Activity2"
             android:label="@string/title_activity_activity2" >
+            <!--
+                Un Intent-filter es una etiqueta que introducimos en el fichero AndroidManifest.xml
+                de nuestra aplicación Android y especifica el tipo de Intents que le gustaría recibir
+                al componente.
+
+                si declaramos un Intent-filter para una Actividad hacemos posible que otras aplicaciones
+                 puedan iniciar directamente su Actividad con un cierto tipo de Intent.
+            -->
             <intent-filter>
+                <!-- action: especifica las acciones que puede realizar un Intent -->
                 <action android:name="android.intent.action.VIEW"/>
+
+                <!-- category: especifica las categorías aceptadas por un Intent -->
                 <category android:name="android.intent.category.BROWSABLE"/>
+                <!-- colocamos esta categoria para que este componente pueda ser una opción mas entre los componentes -->
                 <category android:name="android.intent.category.DEFAULT"/>
+                <!-- especifica los datos aceptados por un Intent -->
                 <data android:scheme="http"/>
             </intent-filter>
+
+            <!--
+                Si no declaramos ningún Intent-filter en nuestra Actividad solo podremos iniciar
+                otra Actividad con un explicit Intent.
+            -->
         </activity>
     </application>
 
