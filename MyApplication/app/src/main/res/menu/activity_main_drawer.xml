@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/ventana_principal"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Ventana Principal" />
+        <item
+            android:id="@+id/ventana_personalizada"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Ventana Personalizada" />
+        <item
+            android:id="@+id/mas_vistas"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Mas Vistas" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/compartir"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Compartir" />
+            <item
+                android:id="@+id/contacto"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Contacto" />
+        </menu>
+    </item>
+
+</menu>
