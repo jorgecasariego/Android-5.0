@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AlertDialogMaterial</string>
+    <string name="action_settings">Preferencias</string>
+    <string name="action_logout">Salir</string>
+</resources>

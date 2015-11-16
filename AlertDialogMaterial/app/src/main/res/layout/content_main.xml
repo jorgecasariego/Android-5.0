@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.enterprise.alertdialogmaterial.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/alertDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AlertDialg" />
+
+    <Button
+        android:id="@+id/myDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Dialog" />
+
+    <Button
+        android:id="@+id/imDialogActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I'm an Activity" />
+
+    <Button
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ProgressBar" />
+
+    <Button
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TimePicker" />
+
+    <Button
+        android:id="@+id/datePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DatePicker" />
+
+
+    <Button
+        android:id="@+id/contextMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Context Menu" />
+
+    <Button
+        android:id="@+id/popupMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showPopupMenu"
+        android:text="PopupMenu"/>
+
+    <Button
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Web View"/>
+</LinearLayout>
