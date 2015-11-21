@@ -43,6 +43,14 @@
         android:text="Leer"
         android:textSize="15sp" />
 
+    <Button
+        android:id="@+id/leer_asset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Leer Assets"
+        android:textSize="15sp" />
+
     <TextView
         android:id="@+id/mis_url_guardadas"
         android:layout_width="match_parent"

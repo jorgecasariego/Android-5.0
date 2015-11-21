@@ -3,6 +3,7 @@ package com.example.jorgecasariego.internalstoragefile;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText url;
     private Button guardar;
     private Button leer;
+    private Button leerAssets;
     private TextView misUrlGuardadas;
 
     @Override
@@ -41,7 +44,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         leer = (Button) findViewById(R.id.leer);
         leer.setOnClickListener(this);
 
+        leerAssets = (Button) findViewById(R.id.leer_asset);
+        leerAssets.setOnClickListener(this);
+
         misUrlGuardadas = (TextView) findViewById(R.id.mis_url_guardadas);
+        
+        //Para saber en que carpeta esta guardada hacer
+        Log.e("Ruta Archivos", "Guardado en: " + getFilesDir());
     }
 
     @Override
@@ -53,8 +62,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.leer:
                 leer_url_desde_archivo();
                 break;
+            case R.id.leer_asset:
+                leer_url_desde_assets();
+                break;
         }
     }
+
+
 
     private void guardar_url_a_archivo() {
         try {
@@ -96,6 +110,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void leer_url_desde_assets() {
+        try{
+            InputStreamReader inputStreamReader = new InputStreamReader(getAssets().open("test.txt"));
+
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
+            String s = "";
+            int charRead;
+
+            while ((charRead = inputStreamReader.read(inputBuffer)) > 0) {
+                // char to string conversion
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                s += readstring;
+            }
+            inputStreamReader.close();
+
+            //Mostramos las urls guardadas en el archivo
+            misUrlGuardadas.setText(s);
         } catch (IOException e) {
             e.printStackTrace();
         }
