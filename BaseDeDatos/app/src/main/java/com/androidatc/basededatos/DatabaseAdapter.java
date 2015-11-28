@@ -97,7 +97,7 @@ public class DatabaseAdapter {
         return buffer.toString();
     }
 
-    public void prueba(){
+   /* public void prueba(){
         String table_name = "course_activity";
         String columns[] = {"course_activity.course_id",
                              "course_activity.activity_id",
@@ -125,7 +125,7 @@ public class DatabaseAdapter {
         String courseID = String.valueOf(course_id);
 
         Cursor cursor = database.rawQuery(MY_QUERY, new String[] {courseID});
-    }
+    }*/
 
     //13. Este metodo nos devuelve la contraseña de un usuario
     public String getUserPassword(String nombreUsuario){
