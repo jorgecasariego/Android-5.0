@@ -19,13 +19,15 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int NOTIF_REF = 1;
+    //private int NOTIF_REF = 1;
+    private int idNotificacion = 0;
     private NotificationManager manager;
 
-    Button notificacionDeprecadaButton;
-    Button imagenGrandeButton;
-    Button textoGrandeButton;
-    Button inboxStyleButton;
+    private Button imagenGrandeButton;
+    private Button textoGrandeButton;
+    private Button inboxStyleButton;
+
+    private int ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificacionDeprecadaButton = (Button) findViewById(R.id.notificar1);
-        notificacionDeprecadaButton.setOnClickListener(this);
-
 
         imagenGrandeButton = (Button) findViewById(R.id.notificar2);
         imagenGrandeButton.setOnClickListener(this);
@@ -54,20 +52,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Notification notification =  null;
 
         switch (v.getId()){
-            case R.id.notificar1:
-                notificacionDeprecada();
-                break;
             case R.id.notificar2:
+                idNotificacion = 2;
                 notification = bigPictureNotification();
-                sendNotification(notification);
+                sendNotification(notification, idNotificacion);
                 break;
             case R.id.notificar3:
+                idNotificacion= 3;
                 notification = bigTextNotification();
-                sendNotification(notification);
+                sendNotification(notification, idNotificacion);
                 break;
             case R.id.notificar4:
+                idNotificacion = 4;
                 notification = inboxStyleNotification();
-                sendNotification(notification);
+                sendNotification(notification, idNotificacion);
                 break;
         }
     }
@@ -104,11 +102,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //6. Seteamos el estilo de la notificacion
         builder.setStyle(bigPicture);
 
+        //7. Agregar una accion utilizando PendingIntent
+        PendingIntent resultPendingIntent = agregarAccion();
 
-        //6. Enviamos la notificacion
+        //8. Asociar el pending Intent al builder
+        builder.setContentIntent(resultPendingIntent);
+
+        // Extra: para preservar la navegacion ver el siguiente tuto:
+        // http://developer.android.com/intl/es/training/notify-user/navigation.html
+
+        //9. Enviamos la notificacion
        return builder.build();
 
     }
+
+    private PendingIntent agregarAccion() {
+        Intent resultado = new Intent(this, ResultadoActivity.class);
+
+        PendingIntent resultadoPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultado,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        return resultadoPendingIntent;
+    }
+
 
     //metodo para notificaciones del tipo Text Image style notification
     private Notification bigTextNotification(){
@@ -132,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private Notification inboxStyleNotification(){
-        int ID = 1;
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setContentTitle("Nuevo Mensaje");
         mBuilder.setContentText("Has recibido un nuevo mensaje");
@@ -159,40 +180,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void sendNotification(Notification notification){
-        manager.notify(NOTIF_REF++, notification);
+    //Metodo para notificar
+    // Pasos:
+    // 1. Obtener una instancia de NotificationManager
+    // 2. Usar el metodo notify para enviar la notificacion. Cuando se utiliza este metodo es
+    //    necesario utilizar un notification ID. Podemos usar este notification ID para
+    //    actualizar la notiticacion despues
+    public void sendNotification(Notification notification, int idNotificacion){
+        manager.notify(idNotificacion, notification);
     }
-
-    private void notificacionDeprecada() {
-        //1. Creamos un notification manager
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        //2. Creamos una notificacion
-        //   Este tipo de notification ya se encuentra deprecada y ahora se usa la clase Builder
-        Notification notification = new Notification(
-                R.mipmap.ic_launcher,
-                "Hola Notificacion",
-                System.currentTimeMillis());
-
-        //3. Cancelamos la notificaion despues de ser seleccionada
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        //4. Number representa el numero de eventos que esta notificacion representa
-        notification.number += 1;
-
-        //5. Esta será la actividad llamada cuando damos click sobre la accion
-        Intent intent = new Intent(this, NotificationReceiver.class);
-
-        //6. Usamos PendingIntent para asignar un intent a la notificacion
-        PendingIntent actividad = PendingIntent.getActivity(this, 0, intent, 0);
-
-        //7. Creamos la vista de la notificacion
-        notification.setLatestEventInfo(this, "Este es el titulo", "Este es el texto", actividad);
-
-        //8. Asignamos al notification manager nuestra nueva notificacion creada
-        //   Le pasamos el id de la notificacion y la notificacion
-        notificationManager.notify(0, notification);
-    }
-
 
 }
